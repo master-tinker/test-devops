@@ -12,5 +12,6 @@ jobs:
         with:
           image: "localbuild/testmoobaa:latest"
           fail-build: true
+          severity-cutoff: "high"
       - name: grype scan JSON results
         run: for j in `ls ./anchore-reports/*.json`; do echo "---- ${j} ----"; cat ${j}; echo; done
