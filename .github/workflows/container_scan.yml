@@ -1,0 +1,14 @@
+on: [push]
+
+jobs:
+  build-secure-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare Repo
+        uses: actions/checkout@master
+      - name: Build Docker
+        run: docker build . -t tmp-moobaa
+      - name: Run Scan
+        uses: Azure/container-scan@v0
+        with:
+          image-name: tmp-mooba
