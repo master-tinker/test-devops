@@ -1,14 +1,16 @@
 on: [push]
 
 jobs:
-  build-secure-and-push:
+  container-scan:
     runs-on: ubuntu-latest
     steps:
-      - name: Prepare Repo
-        uses: actions/checkout@master
-      - name: Build Docker
-        run: docker build . -t tmp-moobaa
-      - name: Run Scan
-        uses: Azure/container-scan@v0
+      - uses: actions/checkout@v2
+      - name: Build the container image
+        run: docker build . --file Dockerfile --tag localbuild/testmoobaa:latest
+      - name: Run Scan on local image
+        uses: anchore/scan-action@v2
         with:
-          image-name: tmp-mooba
+          image: "localbuild/testmoobaa:latest"
+          fail-build: true
+      - name: grype scan JSON results
+        run: for j in `ls ./anchore-reports/*.json`; do echo "---- ${j} ----"; cat ${j}; echo; done
