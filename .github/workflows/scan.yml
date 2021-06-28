@@ -1,7 +1,8 @@
+name: Pre-Release Scans
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   bandit-scan:
