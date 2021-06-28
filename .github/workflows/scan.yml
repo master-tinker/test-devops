@@ -1,6 +1,23 @@
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
+  bandit-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Security check - Bandit
+        uses: ./
+        with:
+          python_version: ${{ matrix.python-version }}
+          project_path: .
+          ignore_failure: true
+      - name: Security check report artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: Security report
+          path: output/security_report.txt
   container-scan:
     runs-on: ubuntu-latest
     steps:
