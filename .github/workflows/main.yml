@@ -21,7 +21,8 @@ jobs:
         run: |
           python -m unittest
       - name: Run Bandit Scan
-        run: bandit -r .
+        run: |
+          bandit -r -ii -ll --exit-zero .
   #      - name: Security check report artifacts
   #        uses: actions/upload-artifact@v1
   #        with:
